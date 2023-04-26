@@ -1,0 +1,39 @@
+.material-symbols-outlined {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.sidemenu {
+    color: #fff;
+    font-weight: 700;
+    
+    background: #6C2020;
+}
+
+.sidemenu h1 {
+    font-size: 2.4rem;
+    line-height: 26px;
+}
+
+.sidemenu h2 {
+    font-size: 1rem;
+}
+
+.sidemenu p {
+    font-size: 0.8rem;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+
+    gap: 10px;
+}
+
+.btn:hover {
+    color: #6C2020;
+}

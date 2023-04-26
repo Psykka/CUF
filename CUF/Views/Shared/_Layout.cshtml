@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - CUF</title>
+</head>
+<body>
+@* <header> *@
+@*     <nav class="navbar toolbar bg-red-900 color-white"> *@
+@*         <div class="float-left"> *@
+@*             <span class="toolbar-label">CUF LOGO</span> *@
+@*         </div> *@
+@*     </nav> *@
+@* </header> *@
+
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<script src="~/lib/sweetalert/sweetalert.min.js"></script>
+<script src="~/lib/material/dist/material.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
