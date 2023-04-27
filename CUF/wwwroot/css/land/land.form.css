@@ -1,0 +1,22 @@
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    gap: 27px;
+
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 14px 11px;
+    gap: 16px;
+
+    background: #EFEEEE;
+    color: #938E8E;
+}
