@@ -50,9 +50,13 @@
         font-size: 18px;
     }
 
-    li>a {
+    a {
         color: inherit;
         text-decoration: none;
+    }
+
+    .container {
+        padding: 20px;
     }
 </style>
 
@@ -75,8 +79,6 @@
     </div>
 
     <script src="~/lib/sweetalert/sweetalert.min.js"></script>
-    <script src="~/lib/material/dist/material.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 
