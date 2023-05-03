@@ -1,27 +1,78 @@
 <!DOCTYPE html>
 
 <html lang="pt">
+
 <head>
     <title>CUF Home</title>
     <link rel="stylesheet" href="~/CUF.styles.css" asp-append-version="true" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="~/css/land/land.css" media="screen" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,1,0" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"/>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,1,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" />
 </head>
+
+<style>
+    .container {
+        height: 100vh;
+    }
+
+    .material-symbols-outlined {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .sidemenu {
+        color: #fff;
+        font-weight: 700;
+
+        background: #6C2020;
+    }
+
+    .sidemenu h1 {
+        font-size: 2.4rem;
+        line-height: 26px;
+    }
+
+    .sidemenu h2 {
+        font-size: 1rem;
+    }
+
+    .sidemenu p {
+        font-size: 0.8rem;
+    }
+
+    .login {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+
+        gap: 10px;
+    }
+
+    .btn:hover {
+        color: #6C2020;
+    }
+</style>
+
 <body>
-<div class="container">
-    <div class="sidemenu">
-        <img class="logo" width="220" src="~/assets/logo.png" alt="CUF"/>
-        <h1>Bem-vindo de volta!</h1>
-        <div class="login">
-            <h2>Possui login?</h2>
-            <p>clique abaixo para logar</p>
+    <div class="container">
+        <div class="sidemenu">
+            <img class="logo" width="220" src="~/assets/logo.png" alt="CUF" />
+            <h1>Bem-vindo de volta!</h1>
+            <div class="login">
+                <h2>Possui login?</h2>
+                <p>clique abaixo para logar</p>
+            </div>
+            <a class="btn" asp-controller="Land" asp-action="Login">Fazer login</a>
         </div>
-        <a class="btn" asp-controller="Land" asp-action="Login">Fazer login</a>
+        <main class="content">
+            @RenderBody()
+        </main>
     </div>
-    <main class="content">
-        @RenderBody()
-    </main>
-</div>
 </body>
+
 </html>
