@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using CUF.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var connecitonStringMysql = builder.Configuration.GetConnectionString("ConnctionMysql");
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(
+    connecitonStringMysql,
+    ServerVersion.Parse("10.4.21-MariaDB")
+));
 
 var app = builder.Build();
 
