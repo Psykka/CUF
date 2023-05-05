@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CUF.Controllers
+namespace CUF.Controllers;
+
+public class SupplierController : Controller
 {
-    public class SupplierController : Controller
+    public IActionResult List()
     {
-        public IActionResult List()
-        {
-            return View();
-        }
+        return View();
     }
 }
+

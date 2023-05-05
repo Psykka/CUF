@@ -1,26 +1,33 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using CUF.Data;
 
-namespace CUF.Controllers
+namespace CUF.Controllers;
+public class UserController : Controller
 {
-    public class UserController : Controller
-    {
-        [HttpPost]
-        public IActionResult Login()
-        {
-            // handle user login action
-            // create session
-            // redirect to SupplierController List
-            return RedirectToAction("List", "Supplier");
-        }
+    private readonly AppDbContext db;
 
-        [HttpPost]
-        public IActionResult Register()
-        {
-            // handle user register
-            // save to new user to database
-            // create session
-            // redirect to SupplierController List
-            return RedirectToAction("List", "Supplier");
-        }
+    public UserController(AppDbContext db)
+    {
+        this.db = db;
+    }
+
+    [HttpPost]
+    public IActionResult Login()
+    {
+        // handle user login action
+        // create session
+        // redirect to SupplierController List
+        return RedirectToAction("List", "Supplier");
+    }
+
+    [HttpPost]
+    public IActionResult Register()
+    {
+        // handle user register
+        // save to new user to database
+        // create session
+        // redirect to SupplierController List
+        return RedirectToAction("List", "Supplier");
     }
 }
+
