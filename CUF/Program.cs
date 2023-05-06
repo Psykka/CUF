@@ -8,6 +8,8 @@ var connecitonStringMysql = builder.Configuration.GetConnectionString("Connction
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(
     connecitonStringMysql,
+    // MariaDB 10.4.21 used by xampp
+    // On docker mariadb:10.4.21
     ServerVersion.Parse("10.4.21-MariaDB")
 ));
 
