@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace CUF.Models;
 
+[Index(nameof(Email), IsUnique = true)]
 public class UserModel
 {
     [Key]

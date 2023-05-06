@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using CUF.Utils;
 
 #nullable disable
 
@@ -33,6 +34,11 @@ namespace CUF.Migrations
                     table.PrimaryKey("PK_Users", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email", "IsAdmin", "Password", "Username" },
+                values: new object[] { 1, "admin@local", true, PasswordService.SHA512("admin"), "admin" });
         }
 
         /// <inheritdoc />
