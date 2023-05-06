@@ -2,6 +2,7 @@
     "recommendations": [
         "ms-dotnettools.csharp",
         "mtxr.sqltools",
-        "mtxr.sqltools-driver-mysql"
+        "mtxr.sqltools-driver-mysql",
+        "gruntfuggly.todo-tree"
     ]
 }

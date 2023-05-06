@@ -18,8 +18,9 @@ public class LandController : Controller
         return View();
     }
 
-    public IActionResult Login()
+    public IActionResult Login(string? Error = null)
     {
+        ViewBag.Error = Error;
         return View();
     }
 
