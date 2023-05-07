@@ -1,13 +1,13 @@
 # CUF
 
-**Cadastro Único de Fornecedores - CUF** é um sistema de cadastro de fornecedores, que permite o cadastro de fornecedores, produtos e serviços, além de permitir a criação de pedidos de compra.
+**Cadastro Único de Fornecedores - CUF** é um sistema, que permite o cadastro de fornecedores, produtos e serviços, além de permitir a criação de pedidos de compra.
 
 ## Instalação
 
 Para instalar o sistema é necessário ter um banco de dados MySQL ou MariaDB, não é necessário criar o banco de dados, o sistema irá criar automaticamente.
 Também é necessário ter instalado na máquina o [dotnet core](https://dotnet.microsoft.com/download/dotnet/6.0) superior a versão 6.
 
-Após clonar o repositório, entre na pasta do projeto e execute o comando abaixo para instalar as dependências do projeto.
+Após clonar o repositório, entre na pasta do projeto e execute o comando abaixo para instalar suas dependências.
 
 ```bash
 dotnet restore
@@ -49,7 +49,7 @@ dotnet watch run --project CUF
 No sistema por padrão já existe um usuário administrador, com o login `admin@local` e senha `admin`.
 Apenas o usuário administrador pode dar permissões, excluir e alterar senhas de outros usuários.
 
-**ATENÇÃO**: O sistema não possui um sistema de recuperação de senha, então caso o usuário administrador perca a senha,
+**ATENÇÃO**: O sistema não possui recuperação de senha, então caso o usuário administrador perca a senha,
 será necessário alterar a senha diretamente no banco de dados. As senhas são armazenadas no banco de dados utilizando o algoritmo de hash `SHA512` sendo então serializadas em `Base64`.
 Para alterar a senha do usuário administrador, execute o comando abaixo no banco de dados.
 
