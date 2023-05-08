@@ -13,6 +13,13 @@
 
 @await RenderSectionAsync("css", required: false)
 <style>
+    .material-symbols-outlined {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
     header {
         display: flex;
         flex-direction: row;
@@ -21,7 +28,7 @@
         padding: 0px 4vw;
         gap: 4vw;
 
-        background: #6C2020;
+        background: var(--primary-color);
 
         flex: none;
         order: 0;

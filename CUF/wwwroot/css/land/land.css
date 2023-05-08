@@ -2,6 +2,13 @@
 @import "./land.form.css";
 @import "./land.input.css";
 
+:root {
+    --primary-color: #6C2020;
+    --success-color: #286a2f;
+    --danger-color: #ff0000;
+    --warning-color: #a57a2a;
+}
+
 * {
     margin: 0;
     padding: 0;

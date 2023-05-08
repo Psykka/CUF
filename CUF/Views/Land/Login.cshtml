@@ -22,7 +22,7 @@
 
     h1 {
         font-size: 2.4rem;
-        color: #6C2020;
+        color: var(--primary-color);
     }
 
     p {
@@ -30,15 +30,8 @@
     }
 
     .btn {
-        background: #6C2020;
-        color: #fff;
         width: 70%;
         border: none;
-    }
-
-    .btn:hover {
-        background: #fff;
-        color: #6C2020;
     }
 </style>
 
@@ -62,7 +55,7 @@
                 <span class="material-symbols-outlined">lock</span>
                 <input type="password" class="form-control" name="Password" placeholder="Senha" required>
             </div>
-            <button type="submit" class="btn">Logar</button>
+            <button type="submit" class="btn btn-primary">Logar</button>
         </form>
     </div>
 </body>
