@@ -10,7 +10,9 @@ public class OrderModel
     public int Id { get; set; }
 
     [Required]
-    public DateTime? Date { get; set; }
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
 
     [Required]
     public UserModel? User { get; set; }

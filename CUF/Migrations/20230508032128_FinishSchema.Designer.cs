@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CUF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230508012741_AddOrderModels")]
-    partial class AddOrderModels
+    [Migration("20230508032128_FinishSchema")]
+    partial class FinishSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,8 +32,14 @@ namespace CUF.Migrations
                         .IsRequired()
                         .HasColumnType("LONGBLOB");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<int?>("ProductModelId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -52,12 +58,18 @@ namespace CUF.Migrations
                         .IsRequired()
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<int?>("SupplierModelId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -99,8 +111,10 @@ namespace CUF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Date")
-                        .IsRequired()
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserId")
@@ -119,6 +133,9 @@ namespace CUF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -130,6 +147,9 @@ namespace CUF.Migrations
                     b.Property<string>("Unit")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -153,24 +173,25 @@ namespace CUF.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Phone")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ProductModelId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Trade")
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CNPJ")
                         .IsUnique();
-
-                    b.HasIndex("ProductModelId");
 
                     b.ToTable("Suppliers");
                 });
@@ -180,6 +201,9 @@ namespace CUF.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -192,6 +216,9 @@ namespace CUF.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -202,6 +229,21 @@ namespace CUF.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ProductModelSupplierModel", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SuppliersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "SuppliersId");
+
+                    b.HasIndex("SuppliersId");
+
+                    b.ToTable("ProductModelSupplierModel");
                 });
 
             modelBuilder.Entity("CUF.Models.AttachmentModel", b =>
@@ -244,11 +286,19 @@ namespace CUF.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CUF.Models.SupplierModel", b =>
+            modelBuilder.Entity("ProductModelSupplierModel", b =>
                 {
                     b.HasOne("CUF.Models.ProductModel", null)
-                        .WithMany("Suppliers")
-                        .HasForeignKey("ProductModelId");
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CUF.Models.SupplierModel", null)
+                        .WithMany()
+                        .HasForeignKey("SuppliersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CUF.Models.OrderModel", b =>
@@ -259,8 +309,6 @@ namespace CUF.Migrations
             modelBuilder.Entity("CUF.Models.ProductModel", b =>
                 {
                     b.Navigation("Attachment");
-
-                    b.Navigation("Suppliers");
                 });
 
             modelBuilder.Entity("CUF.Models.SupplierModel", b =>

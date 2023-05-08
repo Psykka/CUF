@@ -13,4 +13,8 @@ public class AttachmentModel
     [Required]
     [Column(TypeName = "LONGBLOB")]
     public byte? Blob { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
 }

@@ -1,42 +1,106 @@
-﻿@{
+﻿@model IEnumerable<CUF.Models.SupplierModel>
+
+@{
     ViewData["title"] = "Lista de fornecedores";
 }
 
 @section css {
-<style>
-    .btn-buscar {
-        background: #6C2020;
-        color: #fff;
+    <style>
+        .btn-buscar {
+            background: #6C2020;
+            color: #fff;
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 6px 0px;
-        gap: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px 0px;
+            gap: 10px;
 
-        align-self: stretch;
+            align-self: stretch;
 
-        border-radius: 4px;
-        width: 15%;
-    }
+            border-radius: 4px;
+            width: 15%;
+        }
 
-    .search {
-        display: flex;
-        padding: 0px;
-        gap: 15px;
+        .search {
+            display: flex;
+            padding: 0px;
+            gap: 15px;
 
-        height: 50px;
-        width: 100%;       
-    }
+            height: 50px;
+            width: 100%;
+        }
 
-    .bar {
-        flex-grow: 1;
-        border-radius: 4px;
-    }
-</style>
+        .bar {
+            flex-grow: 1;
+            border-radius: 4px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        table, td {
+            border-bottom: 1px solid #ddd;
+            border-collapse: collapse;
+        }
+
+        table, th {
+            border-bottom: 2px solid #ddd;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.7rem;
+            color: #6C2020;
+        }
+    </style>
 }
 
-<div class="search">
-    <input class="form-group bar" type="text" placeholder="Digite sua busca...">
-    <a href="#" class="btn-buscar">Buscar</a>
-</div>
+
+@if (Model.Count() == 0)
+{
+    <h1>Nenhum fornecedor encontrado</h1>
+}
+else
+{
+    <div class="search">
+        <input class="form-group bar" type="text" placeholder="Digite sua busca...">
+        <a href="#" class="btn-buscar">Buscar</a>
+    </div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>CNPJ</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+        </tr>
+        @foreach (var fornecedor in Model)
+        {
+            <tr>
+                <td>@fornecedor.Id</td>
+                <td>@(fornecedor.Trade != null ? fornecedor.Trade : fornecedor.Company)</td>
+                <td>@fornecedor.CNPJ</td>
+                <td>@fornecedor.Phone</td>
+                <td>
+                    <a asp-controller="Supplier" asp-action="Details">Detalhes</a>
+                    <a asp-controller="Supplier" asp-action="Edit">Editar</a>
+                    <a asp-controller="Supplier" asp-action="Delete">Excluir</a>
+                </td>
+            </tr>
+        }
+    </table>
+}

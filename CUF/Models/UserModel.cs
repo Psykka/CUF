@@ -20,5 +20,9 @@ public class UserModel
     [Required]
     public string? Password { get; set; }
 
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
+
     public bool IsAdmin { get; set; }
 }

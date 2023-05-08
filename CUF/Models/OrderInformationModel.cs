@@ -6,8 +6,6 @@ namespace CUF.Models;
 [Table("OrderInformation")]
 public class OrderInformationModel
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     public OrderModel? Order { get; set; }

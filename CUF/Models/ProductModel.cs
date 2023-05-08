@@ -18,6 +18,10 @@ public class ProductModel
     [Required]
     public string? Unit { get; set; }
 
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
+
     public ICollection<SupplierModel>? Suppliers { get; set; }
 
     public ICollection<AttachmentModel>? Attachment { get; set; }

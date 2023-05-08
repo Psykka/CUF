@@ -27,5 +27,11 @@ public class SupplierModel
 
     public string? CRF { get; set; }
 
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
+
     public ICollection<CategoryModel>? Category { get; set; }
+
+    public ICollection<ProductModel>? Product { get; set; }
 }
