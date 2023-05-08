@@ -3,6 +3,7 @@ using System;
 using CUF.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CUF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230508010021_FinishModels")]
+    partial class FinishModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace CUF.Migrations
 
                     b.HasIndex("ProductModelId");
 
-                    b.ToTable("Attachment");
+                    b.ToTable("Anexos");
                 });
 
             modelBuilder.Entity("CUF.Models.CategoryModel", b =>
@@ -63,51 +66,7 @@ namespace CUF.Migrations
 
                     b.HasIndex("SupplierModelId");
 
-                    b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("CUF.Models.OrderInformationModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderInformation");
-                });
-
-            modelBuilder.Entity("CUF.Models.OrderModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("Date")
-                        .IsRequired()
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Orders");
+                    b.ToTable("CategoryModel");
                 });
 
             modelBuilder.Entity("CUF.Models.ProductModel", b =>
@@ -156,9 +115,6 @@ namespace CUF.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ProductModelId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Trade")
                         .HasColumnType("longtext");
 
@@ -166,8 +122,6 @@ namespace CUF.Migrations
 
                     b.HasIndex("CNPJ")
                         .IsUnique();
-
-                    b.HasIndex("ProductModelId");
 
                     b.ToTable("Suppliers");
                 });
@@ -215,49 +169,9 @@ namespace CUF.Migrations
                         .HasForeignKey("SupplierModelId");
                 });
 
-            modelBuilder.Entity("CUF.Models.OrderInformationModel", b =>
-                {
-                    b.HasOne("CUF.Models.OrderModel", "Order")
-                        .WithMany("OrderInformation")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("CUF.Models.ProductModel", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("CUF.Models.OrderModel", b =>
-                {
-                    b.HasOne("CUF.Models.UserModel", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CUF.Models.SupplierModel", b =>
-                {
-                    b.HasOne("CUF.Models.ProductModel", null)
-                        .WithMany("Suppliers")
-                        .HasForeignKey("ProductModelId");
-                });
-
-            modelBuilder.Entity("CUF.Models.OrderModel", b =>
-                {
-                    b.Navigation("OrderInformation");
-                });
-
             modelBuilder.Entity("CUF.Models.ProductModel", b =>
                 {
                     b.Navigation("Attachment");
-
-                    b.Navigation("Suppliers");
                 });
 
             modelBuilder.Entity("CUF.Models.SupplierModel", b =>
