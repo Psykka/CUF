@@ -1,0 +1,44 @@
+@{
+    ViewData["title"] = "Cadastro de fornecedores";
+}
+
+@section css {
+    <style>
+        .content {
+            width: 100%;
+        }
+
+        .form-group {
+            width: 50%;
+        }
+
+        .btn {
+            border: none;
+        }
+    </style>
+}
+
+<from class="content" method="post" asp-controller="Supplier" asp-action="Create">
+    <div class="form-group">
+        <input type="text" class="form-control" name="Company" placeholder="Razão Social" required>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" name="Trade" placeholder="Nome fantasia" required>
+    </div>
+        
+    <div class="form-group">
+        <input type="text" class="form-control" name="CNPJ" placeholder="CNPJ" required>
+    </div>
+    <div class="form-group">
+        <input type="email" class="form-control" name="Email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" name="Phone" placeholder="Telefone" required>
+    </div>
+    <div class="form-group">
+        <input type="email" class="form-control" name="CRF" placeholder="CRF" required>
+    </div>
+
+    <button class="btn btn-primary">Cancelar</button>
+    <button type="submit" class="btn btn-success">Cadastrar</button>
+</from>

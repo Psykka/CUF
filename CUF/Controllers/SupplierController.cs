@@ -20,5 +20,12 @@ public class SupplierController : Controller
             .ToList()
             .OrderBy(s => s.Trade != null ? s.Trade : s.Company));
     }
+
+    public IActionResult Create()
+    {
+        return View();
+    }
+    
+    
 }
 
