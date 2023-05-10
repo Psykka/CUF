@@ -18,11 +18,14 @@
     text-decoration: none;
 
     transition: all 0.2s ease-in-out;
+
+    cursor: pointer;
 }
 
 .btn-primary {
     background: var(--primary-color);
     color: #fff;
+    border: none;
 }
 
 .btn-primary:hover {
@@ -33,6 +36,7 @@
 .btn-success {
     background: var(--success-color);
     color: #fff;
+    border: none;
 }
 
 .btn-success:hover {
@@ -43,6 +47,7 @@
 .btn-danger {
     background: var(--danger-color);
     color: #fff;
+    border: none;
 }
 
 .btn-danger:hover {
@@ -53,6 +58,7 @@
 .btn-warning {
     background: var(--warning-color);
     color: #fff;
+    border: none;
 }
 
 .btn-warning:hover {
@@ -70,6 +76,8 @@
     border-radius: 4px;
 
     line-height: 5px;
+
+    cursor: pointer;
 }
 
 .btn-squarred-primary {

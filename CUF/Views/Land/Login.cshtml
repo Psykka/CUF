@@ -31,7 +31,6 @@
 
     .btn {
         width: 70%;
-        border: none;
     }
 </style>
 
@@ -47,11 +46,11 @@
             </div>
         }
         <form class="login-form" method="post" asp-controller="User" asp-action="Login">
-            <div class="form-group">
+            <div class="form-group form-input">
                 <span class="material-symbols-outlined">mail</span>
                 <input type="email" class="form-control" name="Email" placeholder="Email" required>
             </div>
-            <div class="form-group">
+            <div class="form-group form-input">
                 <span class="material-symbols-outlined">lock</span>
                 <input type="password" class="form-control" name="Password" placeholder="Senha" required>
             </div>

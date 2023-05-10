@@ -52,6 +52,11 @@
 
         gap: 10px;
     }
+
+    .btn:hover {
+        background: #fff;
+        color: var(--primary-color);
+    }
 </style>
 
 <body>
@@ -63,7 +68,7 @@
                 <h2>Possui login?</h2>
                 <p>clique abaixo para logar</p>
             </div>
-            <a class="btn btn-primary" asp-controller="Land" asp-action="Login">Fazer login</a>
+            <a class="btn" asp-controller="Land" asp-action="Login">Fazer login</a>
         </div>
         <main class="content">
             @RenderBody()

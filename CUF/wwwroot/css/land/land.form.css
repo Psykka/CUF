@@ -20,3 +20,18 @@
     background: #EFEEEE;
     color: #938E8E;
 }
+
+.form-input {
+    padding: 14px 11px;
+    gap: 16px;
+    background: #EFEEEE;
+    color: #938E8E;
+}
+
+.col {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    gap: 16px;
+}

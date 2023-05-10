@@ -8,17 +8,17 @@
     <style>
         .new-supplier {
             gap: 10px;
-            width: 40%;
             height: 50px;
             font-size: 1.2rem;
+            padding: 0 15px;
         }
 
         .search .btn-squarred {
-            width: 10vw;
+            width: 100px;
         }
 
         .search .add {
-            width: 5vw;
+            width: 70px;
         }
 
         .search {
@@ -60,7 +60,7 @@
 
         table .btn-squarred {
             display: inline-block;
-            width: 4vw;
+            width: 40px;
             text-align: center;
         }
 
@@ -74,12 +74,6 @@
             padding: 15px;
             text-align: left;
         }
-
-        h1 {
-            text-align: center;
-            font-size: 1.7rem;
-            color: var(--primary-color);
-        }
     </style>
 }
 
@@ -91,13 +85,13 @@
         <span class="material-symbols-outlined">
             add_circle
         </span>
-        Clique aqui para adicionar um novo fornecedor
+        <p>Adicionar novo fornecedor</p>
     </a>
 }
 else
 {
     <div class="search">
-        <input class="form-group bar" type="text" placeholder="Digite sua busca...">
+        <input class="form-group form-input bar" type="text" placeholder="Digite sua busca...">
         <a href="#" class="btn-squarred btn-squarred-primary">Buscar</a>
         <a class="btn-squarred btn-squarred-success add" asp-controller="Supplier" asp-action="Create">
             <span class="material-symbols-outlined">
