@@ -23,9 +23,14 @@ public class SupplierController : Controller
             .OrderBy(s => s.Trade != null ? s.Trade : s.Company));
     }
 
-    public IActionResult Create()
+    public IActionResult Register(SupplierModel data)
     {
-        return View();
+        if (data.Id != 0)
+        {
+            data = db.Suppliers?.Find(data.Id);
+        }
+
+        return View(data);
     }
 
     [HttpPost]
@@ -33,20 +38,25 @@ public class SupplierController : Controller
     {
         if (data.Id == 0)
         {
+            // TODO: Add CreatedBy
+            // TODO: Add UpdatedBy
+            data.CreatedAt = DateTime.Now;
+            data.UpdatedAt = DateTime.Now;
             db.Suppliers?.Add(data);
         }
         else
         {
-            db.Entry<SupplierModel>(db.Suppliers.FirstOrDefault(s => s.Id == data.Id)).CurrentValues.SetValues(data);
+            data.UpdatedAt = DateTime.Now;
+            db.Suppliers?.Update(data);
         }
 
         try
         {
             db.SaveChanges();
         }
-        catch (DbUpdateException exc)
+        catch (DbUpdateException ex)
         {
-            
+            return View("Error", new ErrorViewModel { RequestId = ex.Message });
         }
 
         return RedirectToAction("List", "Supplier");

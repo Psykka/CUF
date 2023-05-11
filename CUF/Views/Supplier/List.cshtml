@@ -81,7 +81,7 @@
 @if (Model.Count() == 0)
 {
     <h1>Nenhum fornecedor encontrado</h1>
-    <a class="btn-squarred btn-squarred-primary new-supplier" asp-controller="Supplier" asp-action="Create">
+    <a class="btn-squarred btn-squarred-primary new-supplier" asp-controller="Supplier" asp-action="Register">
         <span class="material-symbols-outlined">
             add_circle
         </span>
@@ -93,7 +93,7 @@ else
     <div class="search">
         <input class="form-group form-input bar" type="text" placeholder="Digite sua busca...">
         <a href="#" class="btn-squarred btn-squarred-primary">Buscar</a>
-        <a class="btn-squarred btn-squarred-success add" asp-controller="Supplier" asp-action="Create">
+        <a class="btn-squarred btn-squarred-success add" asp-controller="Supplier" asp-action="Register">
             <span class="material-symbols-outlined">
                 add_circle
             </span>
@@ -118,7 +118,7 @@ else
                     <a class="btn-squarred btn-squarred-primary" asp-controller="Supplier" asp-action="Details">
                         <span class="material-symbols-outlined">info</span>
                     </a>
-                    <a class="btn-squarred btn-squarred-success add" asp-controller="Supplier" asp-action="Edit">
+                    <a class="btn-squarred btn-squarred-success add" asp-controller="Supplier" asp-action="Register" asp-route-id="@fornecedor.Id">
                         <span class="material-symbols-outlined">edit</span>
                     </a>
                 </td>

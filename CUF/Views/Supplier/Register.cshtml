@@ -1,0 +1,86 @@
+@model CUF.Models.SupplierModel
+
+@{
+    ViewData["title"] = "Cadastro de Fonecedor";
+}
+
+@section css {
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn {
+            width: 120px;
+        }
+
+        .form-input {
+            margin: 8px 0;
+        }
+
+        .col {
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .col h2 {
+            font-weight: lighter;
+            font-size: 1.2rem;
+            color: #6e6c6c;
+        }
+
+        .form-footer {
+            margin-top: 10px;
+        }
+    </style>
+}
+
+<h1>Cadastro de Fonecedor</h1>
+<form class="form-control" method="post" asp-controller="Supplier" asp-action="Save">
+    <div>
+        <label for="company">Razão Social</label>
+        <input type="text" class="form-control form-input" id="company" name="Company" placeholder="Ex. Discord S.A"
+            value="@Model.Company" required>
+    </div>
+
+    <div>
+        <label for="trade">Nome Fantasia</label>
+        <input type="text" class="form-control form-input" id="trade" name="Trade" placeholder="Ex. Discord"
+            value="@Model.Trade" required>
+    </div>
+
+    <div class="col">
+        <div>
+            <label for="cnpj">CNPJ</label>
+            <input type="text" class="form-control form-input" id="cnpj" name="CNPJ"
+                placeholder="Ex. 05.073.318/0001-16" value="@Model.CNPJ" required>
+        </div>
+
+        <div>
+            <label for="phone">Telefone</label>
+            <input type="text" class="form-control form-input" id="phone" name="Phone" placeholder="Ex. (16) 98821-0103"
+                value="@Model.Phone" required>
+        </div>
+
+        <div>
+            <label for="email">E-mail</label>
+            <input type="text" class="form-control form-input" id="email" name="Email"
+                placeholder="Ex. suporte@discord.com" value="@Model.Email" required>
+        </div>
+    </div>
+
+    <div class="col form-footer">
+        @if (Model.Id > 0)
+        {
+            <input type="hidden" name="Id" value="@Model.Id">
+            <h2>ID: @Model.Id</h2>
+        }
+        <div class="col">
+            <button type="button" class="btn btn-primary">Cancelar</button>
+            <button type="submit" class="btn btn-success">Cadastrar</button>
+        </div>
+    </div>
+</form>
