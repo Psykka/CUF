@@ -22,8 +22,7 @@
         }
 
         .col {
-            justify-content: space-between;
-            align-items: center;
+            flex-grow: 1;
         }
 
         .col h2 {
@@ -38,7 +37,7 @@
     </style>
 }
 
-<h1>Cadastro de Fonecedor</h1>
+<h1>Cadastro de Fornecedor</h1>
 <form class="form-control" method="post" asp-controller="Supplier" asp-action="Save">
     <div>
         <label for="company">Razão Social</label>
@@ -79,7 +78,7 @@
             <h2>ID: @Model.Id</h2>
         }
         <div class="col">
-            <button type="button" class="btn btn-primary">Cancelar</button>
+            <a asp-controller="Supplier" asp-action="List" class="btn btn-primary">Cancelar</a>
             <button type="submit" class="btn btn-success">Cadastrar</button>
         </div>
     </div>

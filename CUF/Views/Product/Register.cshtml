@@ -1,0 +1,117 @@
+@model CUF.Models.ProductModel
+
+@{
+    ViewData["title"] = "Cadastro de Produtos/Serviço";
+}
+
+@section css {
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn {
+            width: 120px;
+        }
+
+        .form-input {
+            margin: 8px 0;
+        }
+
+        .col {
+            flex-grow: 1;
+        }
+
+        .col h2 {
+            font-weight: lighter;
+            font-size: 1.2rem;
+            color: #6e6c6c;
+            align-self: flex-start;
+        }
+
+        .form-footer {
+            margin-top: 10px;
+        }
+
+    </style>
+}
+
+<h1>Cadastro de Produtos e Serviços</h1>
+<form class="form-control" method="post" asp-controller="Product" asp-action="Save">
+    <div>
+        <label for="name">Nome</label>
+        <input type="text" class="form-control form-input" id="name" name="Name" placeholder="Ex. Canetas"
+            value="@Model.Name" required>
+
+        <label for="type">Typo</label>
+        <select class="form-control form-input" id="type" name="Type">
+            <option value="Product">Produto</option>
+            <option value="Service">Serviço</option>
+        </select>
+
+        <label for="unit">Unidade</label>
+        <select class="form-control form-input" id="unit" name="Unit">
+            <option value="Unit">Unitario</option>
+            <option value="Kg">Kg</option>
+            <option value="L">L</option>
+            <option value="M">Metros (m)</option>
+            <option value="M2">Metros quadrados (m²)</option>
+            <option value="M3">Metros cubicos (M³)</option>
+            <option value="Box">Caixa</option>
+            <option value="Pallet">Palete</option>
+            <option value="Package">Pacote</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="description">Descrição</label>
+        <div class="col">
+            <textarea class="form-control form-input" id="description" name="Description"
+                placeholder="Ex. Caixa com 50 Canetas esferográficas" value="@Model.Description" required>@Model.Description</textarea>
+        </div>
+    </div>
+
+    <div class="col form-footer">
+        @if (Model.Id > 0)
+        {
+            <input type="hidden" name="Id" value="@Model.Id">
+            <h2>ID: @Model.Id</h2>
+        }
+        <div class="col">
+            <a asp-controller="Product" asp-action="List" class="btn btn-primary">Cancelar</a>
+            <button type="submit" class="btn btn-success">Cadastrar</button>
+        </div>
+    </div>
+</form>
+
+@section scripts {
+    <script>
+        const type = document.getElementById('type');
+        const description = document.getElementById('description');
+        const name = document.getElementById('name');
+
+        const checkType = () => {
+            if (type.value === 'Product') {
+                description.placeholder = 'Ex. Caixa com 50 Canetas esferográficas';
+                name.placeholder = 'Ex. Canetas';
+                document.getElementById('unit').disabled = false;
+            } else {
+                document.getElementById('unit').disabled = true;
+                name.placeholder = 'Ex. Serviço de limpeza';
+                description.placeholder = 'Ex. Serviço de limpeza de carpetes e tapetes';
+            }
+        }
+
+        type.childNodes.forEach((node) => {
+            if (node.value === '@Model.Type') {
+                node.selected = true;
+                checkType();
+            }
+        });
+
+        type.addEventListener('change', checkType);
+    </script>
+}
+

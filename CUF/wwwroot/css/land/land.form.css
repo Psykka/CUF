@@ -21,11 +21,28 @@
     color: #6e6c6c;
 }
 
+.form-control select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='5'><polygon points='0,0 10,0 5,5' style='fill:grey;'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 98%;
+    background-position-y: 50%;
+    background-size: 16px;
+}
+
 .form-input {
     padding: 14px 11px;
     gap: 16px;
     background: #EFEEEE;
     color: #6e6c6c;
+}
+
+.form-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .col {
