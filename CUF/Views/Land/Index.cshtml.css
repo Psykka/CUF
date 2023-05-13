@@ -15,3 +15,8 @@
 .btn {
     width: 70%;
 }
+
+.alert {
+    color: var(--danger-color);
+    font-size: 1rem;
+}

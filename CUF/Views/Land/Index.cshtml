@@ -7,18 +7,25 @@
 <h1 style="color: var(--primary-color);font-size: 2.4rem;">Crie sua conta</h1>
 <p>use seu email para criar sua conta</p>
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert" role="alert">
+        @TempData["Error"]
+    </div>
+}
+
 <form class="login-form" method="post" asp-controller="User" asp-action="Register">
     <div class="form-group form-input">
         <span class="material-symbols-outlined">mail</span>
-        <input type="email" class="form-control" id="email" placeholder="Email" required>
+        <input type="email" class="form-control" id="email" placeholder="Email" name="Email" required>
     </div>
     <div class="form-group form-input">
         <span class="material-symbols-outlined">account_circle</span>
-        <input type="text" class="form-control" id="username" placeholder="Nome de Usuario" required>
+        <input type="text" class="form-control" id="username" placeholder="Nome de Usuario" name="Username" required>
     </div>
     <div class="form-group form-input">
         <span class="material-symbols-outlined">lock</span>
-        <input type="password" class="form-control" id="password" placeholder="Senha" required>
+        <input type="password" class="form-control" id="password" placeholder="Senha" name="Password" required>
     </div>
     <button type="submit" class="btn btn-primary">Criar conta</button>
 </form>

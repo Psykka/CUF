@@ -44,13 +44,39 @@ public class UserController : Controller
     }
 
     [HttpPost]
-    public IActionResult Register()
+    public async Task<IActionResult> Register(UserModel user)
     {
-        // handle user register
+        if (user.Email == null || user.Password == null || user.Username == null)
+        {
+            TempData["Error"] = "Email, Nome de usuário e Senha são obrigatórios";
+            return RedirectToAction("Index", "Land");
+        }
+
+        var userDb = db.Users?.FirstOrDefault(u => u.Email == user.Email);
+
+        // validate user data
+        if (userDb != null)
+        {
+            TempData["Error"] = "Email já cadastrado";
+            return RedirectToAction("Index", "Land");
+        }
+
         // save to new user to database
+        user.Password = PasswordService.SHA512(user.Password);
+        db.Users.Add(user);
+        db.SaveChanges();
+
         // create session
+        await CreateSession(user);
+
         // redirect to SupplierController List
         return RedirectToAction("List", "Supplier");
+    }
+
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction("Login", "Land");
     }
 
     Task CreateSession(UserModel user)
