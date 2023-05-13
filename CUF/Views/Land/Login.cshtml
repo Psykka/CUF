@@ -1,5 +1,6 @@
 @{
     Layout = null;
+    var error = TempData["Error"];
 }
 
 <!DOCTYPE html>
@@ -31,17 +32,20 @@
     .btn {
         width: 70%;
     }
+
+    .alert {
+        color: var(--danger-color);
+    }
 </style>
 
 <body>
     <div class="content">
         <h1>Login</h1>
         <p>Use seu email e senha para logar</p>
-        @if (@ViewBag.Error != null)
+        @if (error != null)
         {
-            @* TODO: Criar Alerta no css *@
-            <div class="alert alert-danger" role="alert">
-                @ViewBag.Error
+            <div class="alert" role="alert">
+                @error
             </div>
         }
         <form class="login-form" method="post" asp-controller="User" asp-action="Login">

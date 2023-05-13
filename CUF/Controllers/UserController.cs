@@ -3,6 +3,10 @@ using CUF.Data;
 using CUF.Models;
 using CUF.Utils;
 
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+
 namespace CUF.Controllers;
 public class UserController : Controller
 {
@@ -14,29 +18,27 @@ public class UserController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login(UserModel user)
+    public async Task<IActionResult> Login(UserModel user)
     {
         // handle user login action
         if (user.Email == null || user.Password == null)
         {
-            return RedirectToAction("Login", "Land", new { error = "Email and Password are required" });
+            TempData["Error"] = "Email and Password are required";
+            return RedirectToAction("Login", "Land");
         }
 
         var userDb = db.Users?.FirstOrDefault(u => u.Email == user.Email);
-
-        if (userDb == null)
-        {
-            return RedirectToAction("Login", "Land", new { error = "Email or Password is incorrect" });
-        }
-
         var passwordHash = PasswordService.SHA512(user.Password);
 
-        if (passwordHash != userDb.Password)
+        if (userDb == null || passwordHash != userDb.Password)
         {
-            return RedirectToAction("Login", "Land", new { error = "Email or Password is incorrect" });
+            TempData["Error"] = "Email or Password is incorrect";
+            return RedirectToAction("Login", "Land");
         }
 
         // create session
+        await CreateSession(userDb);
+
         // redirect to SupplierController List
         return RedirectToAction("List", "Supplier");
     }
@@ -49,6 +51,26 @@ public class UserController : Controller
         // create session
         // redirect to SupplierController List
         return RedirectToAction("List", "Supplier");
+    }
+
+    Task CreateSession(UserModel user)
+    {
+        // create session
+        List<Claim> claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin" : "User")
+        };
+
+        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var properties = new AuthenticationProperties
+        {
+            AllowRefresh = true,
+            IsPersistent = true,
+            ExpiresUtc = DateTime.UtcNow.AddMinutes(60)
+        };
+
+        return HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
     }
 }
 

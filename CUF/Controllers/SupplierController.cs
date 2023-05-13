@@ -1,10 +1,12 @@
 ﻿using CUF.Data;
 using CUF.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CUF.Controllers;
 
+[Authorize]
 public class SupplierController : Controller
 {
 

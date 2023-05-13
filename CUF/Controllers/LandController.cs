@@ -18,9 +18,15 @@ public class LandController : Controller
         return View();
     }
 
-    public IActionResult Login(string? Error = null)
+    public IActionResult Login()
     {
-        ViewBag.Error = Error;
+        // check if user is already logged in
+        var claimUser = HttpContext.User;
+        if (claimUser.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("List", "Supplier");
+        }
+
         return View();
     }
 

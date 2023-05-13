@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using CUF.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 var connecitonStringMysql = builder.Configuration.GetConnectionString("ConnctionMysql");
@@ -12,6 +13,13 @@ builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(
     // On docker mariadb:10.4.21
     ServerVersion.Parse("10.4.21-MariaDB")
 ));
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Land/Login";
+        options.AccessDeniedPath = "/Land/Login";
+    });
 
 var app = builder.Build();
 
@@ -27,6 +35,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
