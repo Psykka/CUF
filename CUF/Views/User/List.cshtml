@@ -1,0 +1,114 @@
+@model IEnumerable<CUF.Models.UserModel>
+
+@{
+    ViewData["title"] = "Lista de Usuarios";
+}
+
+@section css {
+    <style>
+        .new-supplier {
+            gap: 10px;
+            height: 50px;
+            font-size: 1.2rem;
+            padding: 0 15px;
+        }
+
+        .search .btn-squarred {
+            width: 100px;
+        }
+
+        .search .add {
+            width: 70px;
+        }
+
+        .search {
+            display: flex;
+            padding: 0px;
+            gap: 15px;
+
+            height: 50px;
+            width: 100%;
+        }
+
+        .bar {
+            flex-grow: 1;
+            border-radius: 4px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        td {
+            border-bottom: 1px solid #ddd;
+            border-collapse: collapse;
+        }
+
+        table,
+        th {
+            border-bottom: 2px solid #ddd;
+            border-collapse: collapse;
+        }
+
+        table .btn-squarred {
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+        }
+
+        table .table-name {
+            min-width: 30vw;
+            max-width: 60vw;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+        }
+    </style>
+}
+
+<div class="search">
+    <input class="form-group form-input bar" type="text" placeholder="Digite sua busca...">
+    <a href="#" class="btn-squarred btn-squarred-primary">Buscar</a>
+    <a class="btn-squarred btn-squarred-success add" asp-controller="User" asp-action="Register">
+        <span class="material-symbols-outlined">
+            add_circle
+        </span>
+    </a>
+</div>
+<table>
+    <tr>
+        <th>ID</th>
+        <th class="table-name">Nome de usuario</th>
+        <th>Email</th>
+        <th>Ações</th>
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Id</td>
+            <td>@user.Username</td>
+            <td>@user.Email</td>
+            <td>
+                <a class="btn-squarred btn-squarred-primary" asp-controller="User" asp-action="Details">
+                    <span class="material-symbols-outlined">info</span>
+                </a>
+                <a class="btn-squarred btn-squarred-success add" asp-controller="User" asp-action="Register"
+                    asp-route-id="@user.Id">
+                    <span class="material-symbols-outlined">edit</span>
+                </a>
+            </td>
+        </tr>
+    }
+</table>
+

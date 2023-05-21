@@ -54,7 +54,7 @@ será necessário alterar a senha diretamente no banco de dados. As senhas são 
 Para alterar a senha do usuário administrador, execute o comando abaixo no banco de dados.
 
 ```sql
-UPDATE `Users` SET `Password` = "x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A==" WHERE `Users`.`Email` = "admin@local";
+UPDATE `Users` SET `Password` = "x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ONxp3Y3pB37A==" WHERE `Users`.`Id` = 1;
 ```
 
 Isso irá alterar a senha do usuário administrador para `admin`.

@@ -1,0 +1,102 @@
+@model CUF.Models.UserModel
+
+@{
+    ViewData["title"] = "Cadastro de Fonecedor";
+    Model.Password = "";
+}
+
+@section css {
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn {
+            width: 120px;
+        }
+
+        .form-input {
+            margin: 8px 0;
+        }
+
+        .col {
+            flex-grow: 1;
+        }
+
+        .col h2 {
+            font-weight: lighter;
+            font-size: 1.2rem;
+            color: #6e6c6c;
+        }
+
+        .form-footer {
+            margin-top: 10px;
+        }
+
+        .info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0 20px 0;
+        }
+
+        h2 {
+            font-weight: lighter;
+            font-size: 1.3rem;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+}
+
+<h1>Cadastro de Usuario</h1>
+@if (Model.Id == 1)
+{
+    <div class="info">
+        <h2>Administrador Geral</h2>
+        <span><b>Cuidado</b> ao editar esse usuario. Alterações aqui podem ser irreversíveis</span>
+    </div>
+}
+<form class="form-control" method="post" asp-controller="User" asp-action="AdminRegister">
+    <div>
+        <label for="username">Nome de usuario</label>
+        <input type="text" class="form-control form-input" id="username" name="Username" placeholder="Ex. Maria Silva"
+            value="@Model.Username" required>
+    </div>
+
+    <div>
+        <label for="email">E-mail</label>
+        <input type="text" class="form-control form-input" id="email" name="Email" placeholder="Ex. maria.silva@local"
+            value="@Model.Email" required>
+    </div>
+
+    <div>
+        <label for="password">Senha</label>
+        <input type="password" class="form-control form-input" id="password" name="Password" placeholder="" value=""
+            required>
+    </div>
+
+    <div class="checkbox">
+        <input type="checkbox" name="IsAdmin" id="is-admin" value="true" checked>
+        <label for="is-admin">Usuario Administrador</label>
+    </div>
+
+    <div class="col form-footer">
+        @if (Model.Id > 0)
+        {
+            <input type="hidden" name="Id" value="@Model.Id">
+            <h2>ID: @Model.Id</h2>
+        }
+        <div class="col">
+            <a asp-controller="User" asp-action="List" class="btn btn-primary">Cancelar</a>
+            <button type="submit" class="btn btn-success">Cadastrar</button>
+        </div>
+    </div>
+</form>

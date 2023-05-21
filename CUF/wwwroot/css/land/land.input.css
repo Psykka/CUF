@@ -3,6 +3,14 @@
     width: 100%;
 }
 
+input[type="checkbox"] {
+    all: revert;
+    width: 16px;
+    height: 16px;
+
+    cursor: pointer;
+}
+
 textarea {
     all: unset;
     width: 100%;

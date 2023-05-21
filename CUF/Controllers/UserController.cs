@@ -44,7 +44,7 @@ public class UserController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Register(UserModel user)
+    public async Task<IActionResult> LandRegister(UserModel user)
     {
         if (user.Email == null || user.Password == null || user.Username == null)
         {
@@ -62,15 +62,63 @@ public class UserController : Controller
         }
 
         // save to new user to database
-        user.Password = PasswordService.SHA512(user.Password);
-        db.Users.Add(user);
-        db.SaveChanges();
+        Save(user);
 
         // create session
         await CreateSession(user);
 
         // redirect to SupplierController List
         return RedirectToAction("List", "Supplier");
+    }
+
+    public int Save(UserModel user)
+    {
+        user.Password = PasswordService.SHA512(user.Password);
+        user.CreatedAt = DateTime.Now;
+        user.UpdatedAt = DateTime.Now;
+
+        db.Users.Add(user);
+
+        return db.SaveChanges();
+    }
+
+    public IActionResult Register(UserModel data)
+    {
+        if (data.Id != 0)
+        {
+            data = db.Users?.Find(data.Id);
+        }
+
+        return View(data);
+    }
+    
+
+    [HttpPost]
+    public async Task<IActionResult> AdminRegister(UserModel user)
+    {
+        if (user.Email == null || user.Password == null || user.Username == null)
+        {
+            TempData["Error"] = "Email, Nome de usuário e Senha são obrigatórios";
+            return RedirectToAction("Register", "User", user);
+        }
+
+        var userDb = db.Users?.FirstOrDefault(u => u.Email == user.Email);
+
+        // validate user data
+        if (userDb != null)
+        {
+            TempData["Error"] = "Email já cadastrado";
+            return RedirectToAction("Register", "User", user);
+        }
+
+        // save to new user to database
+        Save(user);
+
+        // create session
+        await CreateSession(user);
+
+        // redirect to SupplierController List
+        return RedirectToAction("List", "User");
     }
 
     public async Task<IActionResult> Logout()
@@ -97,6 +145,14 @@ public class UserController : Controller
         };
 
         return HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
+    }
+
+    public IActionResult List()
+    {
+        return View(db.Users?
+            .Take(50)
+            .ToList()
+            .OrderBy(p => p.Username));
     }
 }
 
