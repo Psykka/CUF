@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CUF.Models;
@@ -11,6 +10,8 @@ public class OrderInformationModel
     public OrderModel? Order { get; set; }
 
     public ProductModel? Product { get; set; }
+
+    public SupplierModel? Supplier { get; set; }
 
     public int Quantity { get; set; }
 }

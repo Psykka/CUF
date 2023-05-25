@@ -133,6 +133,7 @@ public class UserController : Controller
         List<Claim> claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.Username),
+            new Claim("UserId", user.Id.ToString()),
             new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin" : "User")
         };
 

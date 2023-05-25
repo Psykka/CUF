@@ -1,0 +1,146 @@
+@model CUF.Models.OrderModel
+
+@{
+    ViewData["title"] = "Cadastro de Pedidos";
+    var Name = User.Identity.Name;
+    var UserId = User.Claims.Where(c => c.Type == "UserId").Select(c => c.Value).SingleOrDefault();
+}
+
+@section css {
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn {
+            width: 120px;
+        }
+
+        .form-input {
+            margin: 8px 0;
+        }
+
+        .col {
+            flex-grow: 1;
+        }
+
+        .col h2 {
+            font-weight: lighter;
+            font-size: 1.2rem;
+            color: #6e6c6c;
+            align-self: flex-start;
+        }
+
+        .form-footer {
+            margin-top: 10px;
+        }
+
+        .form-control {
+            flex-direction: row;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        td {
+            border-bottom: 1px solid #ddd;
+            border-collapse: collapse;
+        }
+
+        table,
+        th {
+            border-bottom: 2px solid #ddd;
+            border-collapse: collapse;
+        }
+
+        table .btn-squarred {
+            width: 100px;
+            text-align: center;
+        }
+
+        table .table-name {
+            min-width: 30vw;
+            max-width: 60vw;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .add-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+}
+
+<h1>Cadastro de Pedido</h1>
+@*
+Lista Produtos
+Quantidade de produtos
+Fornecedor do produto
+Usuario (não visivel)
+*@
+
+<form class="form-control" method="post" asp-controller="Product" asp-action="Save">
+    <div>
+        <div>
+            <div>
+                <label for="user">Usuario</label>
+                <input type="text" class="form-control form-input" id="user" name="Company" value="@Name" disabled>
+            </div>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <th class="table-name">Produto</th>
+                    <th>Unidade</th>
+                    <th>Tipo</th>
+                    <th>Quantidade</th>
+                </tr>
+                <tr>
+                    <td>Papel</td>
+                    <td>Pacote</td>
+                    <td>Produto</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Papel</td>
+                    <td>Pacote</td>
+                    <td>Produto</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td class="add-btn" colspan="3">
+                        <button class="btn-squarred btn-squarred-primary">
+                            <span class="material-symbols-outlined">
+                                add_circle
+                            </span>
+                        </button>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="col form-footer">
+        @if (Model.Id > 0)
+        {
+            <input type="hidden" name="Id" value="@Model.Id">
+            <h2>ID: @Model.Id</h2>
+        }
+        <div class="col">
+            <a asp-controller="Product" asp-action="List" class="btn btn-primary">Cancelar</a>
+            <button type="submit" class="btn btn-success">Cadastrar</button>
+        </div>
+    </div>
+</form>
