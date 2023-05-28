@@ -8,6 +8,25 @@
 
 @section css {
     <style>
+        .swal2-container .form-control {
+            display: flex;
+            box-sizing: border-box;
+            padding: 2px;
+            text-align: left;
+        }
+
+        .swal2-container .form-control div {
+            padding: 0 5px;
+        }
+
+        .swal2-container .form-control label {
+            text-align: center;
+        }
+
+        .qtd input {
+            width: 90px;
+        }
+
         .container {
             display: flex;
             flex-direction: column;
@@ -60,7 +79,7 @@
         }
 
         table .btn-squarred {
-            width: 100px;
+            width: 200px;
             text-align: center;
         }
 
@@ -75,10 +94,18 @@
             text-align: left;
         }
 
-        .add-btn {
+        .table-footer {
             display: flex;
-            align-items: center;
             justify-content: center;
+        }
+
+        table tr:hover td {
+            background-color: #ddd;
+            cursor: pointer;
+        }
+
+        .tr-footer:hover td {
+            background-color: #fff;
         }
     </style>
 }
@@ -119,13 +146,15 @@ Usuario (não visivel)
                     <td>Produto</td>
                     <td>1</td>
                 </tr>
-                <tr>
-                    <td class="add-btn" colspan="3">
-                        <button class="btn-squarred btn-squarred-primary">
-                            <span class="material-symbols-outlined">
-                                add_circle
-                            </span>
-                        </button>
+                <tr class="tr-footer">
+                    <td colspan="4">
+                        <div class="table-footer">
+                            <button type="button" class="btn-squarred btn-squarred-primary">
+                                <span class="material-symbols-outlined">
+                                    add_circle
+                                </span>
+                            </button>
+                        </div>
                     </td>
                 </tr>
 
@@ -144,3 +173,74 @@ Usuario (não visivel)
         </div>
     </div>
 </form>
+
+@section scripts {
+    <script>
+        const addBtn = document.querySelector('.btn-squarred')
+        const products = []
+
+        const newTable = (data) => {
+            const rows = data.map(product => {
+                return `
+                    <tr>
+                        <td>${product.name}</td>
+                        <td>${product.unit ? getUnit(product.unit) : '-'}</td>
+                        <td>${getProductType(product.type)}</td>
+                    </tr>
+                `
+            })
+
+            rows.unshift(`
+                <tr>
+                    <th>Produto</th>
+                    <th>Unidade</th>
+                    <th>Tipo</th>
+                </tr>
+            `)
+
+            const table = document.querySelector('#result')
+            table.innerHTML = rows.join('')
+        }
+
+        const searchProdut = (input) => {
+            const value = input.value
+            const table = document.querySelector('#result')
+            const url = !value ? `${host}/Product/Get` : `${host}/Product/Search?name=${value}`
+
+            fetch(url)
+                .then(res => res.json())
+                .then(data => newTable(data))
+        }
+
+        addBtn.addEventListener('click', () => {
+            Swal.fire({
+                title: 'Adicionar Produto',
+                html: `
+                                <div class="form-control">
+                                    <div>
+                                        <label for="name">Escreva o nome do produto</label>
+                                        <input type="text" class="form-input" id="search" oninput="searchProdut(this)" autocomplete="off">
+                                    </div>
+                                    <div class="qtd">
+                                        <label for="name">Qtd.</label>
+                                        <input type="number" class="form-input" id="name" name="name" autocomplete="off">
+                                    </div>
+                                </div>
+                                <table id="result">
+
+                                </table>
+                                <div class="form-control">
+                                </div>
+                            `,
+                didOpen: () => {
+                    const input = document.querySelector('#search')
+                    input.focus()
+
+                    fetch(`${host}/Product/Get`)
+                        .then(res => res.json())
+                        .then(data => newTable(data))
+                },
+            })
+        })
+    </script>
+}

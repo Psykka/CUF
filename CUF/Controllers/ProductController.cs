@@ -60,4 +60,32 @@ public class ProductController : Controller
 
         return RedirectToAction("List", "Product");
     }
+
+    [HttpGet]
+    [Produces("application/json")]
+    public async Task<IActionResult> Search(string name)
+    {
+        if (string.IsNullOrEmpty(name))
+        {
+            return BadRequest();
+        }
+
+        var products = await db.Products?
+            .Where(p => p.Name.ToLower().Contains(name))
+            .Take(10)
+            .ToListAsync();
+
+        return Ok(products);
+    }
+
+    [HttpGet]
+    [Produces("application/json")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var product = await db.Products?
+            .Take(50)
+            .ToListAsync();
+
+        return Ok(product);
+    }
 }

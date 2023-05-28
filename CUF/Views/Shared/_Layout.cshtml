@@ -95,7 +95,37 @@
         @RenderBody()
     </div>
 
-    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    <script type="text/javascript">
+        const host = location.href.split('/').slice(0, 3).join('/')
+        const productTypes = {
+            1: 'Produto',
+            2: 'Serviço'
+        }
+
+        const locale_pt = {
+            UNIT: {
+                'Unit': 'Unidade',
+                'Kg': 'Kg',
+                'L': 'L',
+                'M': 'm',
+                'M2': 'm²',
+                'M3': 'm³',
+                'Box': 'Caixa',
+                'Pallet': 'Pallet',
+                'Package': 'Pacote',
+                'Other': 'Outro'
+            }
+        }
+
+        const getProductType = (type) => {
+            return productTypes[type] || 'Desconhecido'
+        }
+
+        const getUnit = (unit) => {
+            return locale_pt.UNIT[unit] || 'Desconhecido'
+        }
+    </script>
     @await RenderSectionAsync("scripts", required: false)
 </body>
 
