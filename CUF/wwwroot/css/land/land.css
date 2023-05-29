@@ -1,6 +1,7 @@
 @import "./land.button.css";
 @import "./land.form.css";
 @import "./land.input.css";
+@import "./land.table.css";
 
 :root {
     --primary-color: #4054B2;
