@@ -47,20 +47,21 @@
         }
 
         table .table-name {
-            width: 30%;
             border-collapse: collapse;
-        }
-
-        table {
-            width: 30%;
         }
 
         .register {
             display: flex;
             flex-direction: row;
             width: 100%;
-            
+
             gap: 20px;
+        }
+
+        .form-inputs {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
     </style>
 }
@@ -68,7 +69,7 @@
 <h1>Cadastro de Fornecedor</h1>
 <form id="submit-form" class="form-control" method="post" asp-controller="Supplier" asp-action="Save">
     <div class="register">
-        <div>
+        <div class="form-inputs">
             <div>
                 <label for="company">Razão Social</label>
                 <input type="text" class="form-control form-input" id="company" name="Company"
@@ -81,28 +82,27 @@
                     value="@Model.Trade" required>
             </div>
 
-            <div class="col">
-                <div>
-                    <label for="cnpj">CNPJ</label>
-                    <input type="text" class="form-control form-input" id="cnpj" name="CNPJ"
-                        placeholder="Ex. 05.073.318/0001-16" value="@Model.CNPJ" required>
-                </div>
-
-                <div>
-                    <label for="phone">Telefone</label>
-                    <input type="text" class="form-control form-input" id="phone" name="Phone"
-                        placeholder="Ex. (16) 98821-0103" value="@Model.Phone" required>
-                </div>
-
-                <div>
-                    <label for="email">E-mail</label>
-                    <input type="text" class="form-control form-input" id="email" name="Email"
-                        placeholder="Ex. suporte@discord.com" value="@Model.Email" required>
-                </div>
+            <div>
+                <label for="cnpj">CNPJ</label>
+                <input type="text" class="form-control form-input" id="cnpj" name="CNPJ"
+                    placeholder="Ex. 05.073.318/0001-16" value="@Model.CNPJ" required>
             </div>
+
+            <div>
+                <label for="phone">Telefone</label>
+                <input type="text" class="form-control form-input" id="phone" name="Phone"
+                    placeholder="Ex. (16) 98821-0103" value="@Model.Phone" required>
+            </div>
+
+            <div>
+                <label for="email">E-mail</label>
+                <input type="text" class="form-control form-input" id="email" name="Email"
+                    placeholder="Ex. suporte@discord.com" value="@Model.Email" required>
+            </div>
+
         </div>
 
-        <table>
+        <table id="list">
             <tr>
                 <th class="table-name">Produto</th>
                 <th>Unidade</th>
@@ -127,8 +127,6 @@
             </tr>
         </table>
     </div>
-
-
 </form>
 <div class="col form-footer">
     @if (Model.Id > 0)
@@ -141,3 +139,161 @@
         <button type="submit" form="submit-form" class="btn btn-success">Cadastrar</button>
     </div>
 </div>
+
+@section scripts {
+    <script>
+        const cachedProducts = []
+        const products = []
+
+        const addProductToList = (product) => {
+            const productExists = products.find(p => p.id === product.id)
+
+            if (!productExists) {
+                products.push(product)
+            }
+
+            newListTable()
+        }
+
+        const newListTable = () => {
+            const rows = products.map(product => {
+                return `
+                                <tr>
+                                    <td>${product.name}</td>
+                                    <td>${product.unit ? getUnit(product.unit) : '-'}</td>
+                                    <td>${getProductType(product.type)}</td>
+                                    <td>
+                                        <div class="table-footer">
+                                            <button onclick="removeProduct(${product.id})" type="button" class="btn-squarred btn-squarred-danger">
+                                                <span class="material-symbols-outlined">
+                                                    remove_circle
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `
+            })
+
+            rows.unshift(`
+                            <tr>
+                                <th class="table-name">Produto</th>
+                                <th>Unidade</th>
+                                <th>Tipo</th>
+                                <th>Quantidade</th>
+                            </tr>
+                        `)
+
+            rows.push(`
+                            <tr class="tr-footer">
+                                <td colspan="4">
+                                    <div class="table-footer">
+                                        <button onclick="newSearchBox()" type="button" class="btn-squarred btn-squarred-primary">
+                                            <span class="material-symbols-outlined">
+                                                add_circle
+                                            </span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `)
+
+            const table = document.querySelector('#list')
+            table.innerHTML = rows.join('')
+        }
+
+        const newSearchTable = (data) => {
+            const rows = data.map(product => {
+
+                if (!cachedProducts.find(p => p.id === product.id)) {
+                    cachedProducts.push(product)
+                }
+
+                return `
+                                <tr onclick="addProduct(${product.id})">
+                                    <td>${product.name}</td>
+                                    <td>${product.unit ? getUnit(product.unit) : '-'}</td>
+                                    <td>${getProductType(product.type)}</td>
+                                </tr>
+                            `
+            })
+
+            rows.unshift(`
+                            <tr>
+                                <th>Produto</th>
+                                <th>Unidade</th>
+                                <th>Tipo</th>
+                            </tr>
+                        `)
+
+            const table = document.querySelector('#result')
+            table.innerHTML = rows.join('')
+        }
+
+        const newSearchBox = () => {
+            Swal.fire({
+                title: 'Adicionar Produto',
+                html: `
+                                            <div class="form-control">
+                                                <div>
+                                                    <label for="name">Escreva o nome do produto</label>
+                                                    <input type="text" class="form-input" id="search" oninput="searchProdut(this)" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <table id="result">
+                                            </table>
+                                            <div class="form-control">
+                                            </div>
+                                        `,
+                showConfirmButton: false,
+                didOpen: () => {
+                    const input = document.querySelector('#search')
+                    input.focus()
+
+                    fetch(`${host}/Product/Get`)
+                        .then(res => res.json())
+                        .then(data => newSearchTable(data))
+                },
+            })
+        }
+
+        const searchProdut = (input) => {
+            const value = input.value
+            const url = !value ? `${host}/Product/Get` : `${host}/Product/Search?name=${value}`
+
+            fetch(url)
+                .then(res => res.json())
+                .then(data => newSearchTable(data))
+        }
+
+        const addProduct = (id) => {
+            const product = cachedProducts.find(p => p.id === id)
+
+            Swal.fire({
+                icon: 'success',
+                title: `Item adicionado a lista`,
+                html: `<p>Produto: <b>${product.name}</b></p>`
+            }).then(res => {
+                addProductToList(product)
+            })
+        }
+
+        const removeProduct = (id) => {
+            const product = products.find(p => p.id === id)
+
+            Swal.fire({
+                icon: 'warning',
+                title: `Remover item da lista`,
+                html: `<p>Produto: <b>${product.name}</b></p>`,
+                showCancelButton: true,
+                confirmButtonText: 'Remover',
+                cancelButtonText: 'Cancelar'
+            }).then(res => {
+                if (res.isConfirmed) {
+                    products.splice(products.indexOf(product), 1)
+                    newListTable()
+                }
+            })
+        }
+    </script>
+}

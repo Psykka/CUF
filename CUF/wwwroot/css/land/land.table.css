@@ -16,8 +16,7 @@ th {
 }
 
 table .table-name {
-    min-width: 30vw;
-    max-width: 60vw;
+    width: 60%;
 }
 
 th,
