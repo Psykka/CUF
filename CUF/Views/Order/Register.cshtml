@@ -12,19 +12,19 @@
             display: flex;
             box-sizing: border-box;
             padding: 2px;
-            text-align: left;
         }
 
         .swal2-container .form-control div {
             padding: 0 5px;
+            width: 100%;
         }
 
         .swal2-container .form-control label {
             text-align: center;
         }
 
-        .qtd input {
-            width: 90px;
+        .swal2-container .form-control input {
+            text-align: left;
         }
 
         .container {
@@ -104,6 +104,10 @@
             cursor: pointer;
         }
 
+        table td p {
+            text-align: center;
+        }
+
         .tr-footer:hover td {
             background-color: #fff;
         }
@@ -127,7 +131,7 @@ Usuario (não visivel)
             </div>
         </div>
         <div>
-            <table>
+            <table id="list">
                 <tr>
                     <th class="table-name">Produto</th>
                     <th>Unidade</th>
@@ -135,21 +139,14 @@ Usuario (não visivel)
                     <th>Quantidade</th>
                 </tr>
                 <tr>
-                    <td>Papel</td>
-                    <td>Pacote</td>
-                    <td>Produto</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>Papel</td>
-                    <td>Pacote</td>
-                    <td>Produto</td>
-                    <td>1</td>
+                    <td colspan="4">
+                        <p>Nenhum produto inserido ainda...</p>
+                    </td>
                 </tr>
                 <tr class="tr-footer">
                     <td colspan="4">
                         <div class="table-footer">
-                            <button type="button" class="btn-squarred btn-squarred-primary">
+                            <button onclick="newSearchBox()" type="button" class="btn-squarred btn-squarred-primary">
                                 <span class="material-symbols-outlined">
                                     add_circle
                                 </span>
@@ -157,7 +154,6 @@ Usuario (não visivel)
                         </div>
                     </td>
                 </tr>
-
             </table>
         </div>
     </div>
@@ -176,71 +172,151 @@ Usuario (não visivel)
 
 @section scripts {
     <script>
-        const addBtn = document.querySelector('.btn-squarred')
+        const addBtn = document.querySelector('#addButton')
+        const cachedProducts = []
         const products = []
 
-        const newTable = (data) => {
-            const rows = data.map(product => {
+        const addProductToList = (product, qtd) => {
+            const productExists = products.find(p => p.id === product.id)
+
+            if (productExists) {
+                productExists.qtd += parseInt(qtd)
+            } else {
+                products.push({
+                    id: product.id,
+                    name: product.name,
+                    unit: product.unit,
+                    type: product.type,
+                    qtd: parseInt(qtd),
+                })
+            }
+
+            newListTable()
+        }
+
+        const newListTable = () => {
+            const rows = products.map(product => {
                 return `
-                    <tr>
-                        <td>${product.name}</td>
-                        <td>${product.unit ? getUnit(product.unit) : '-'}</td>
-                        <td>${getProductType(product.type)}</td>
-                    </tr>
-                `
+                        <tr>
+                            <td>${product.name}</td>
+                            <td>${product.unit ? getUnit(product.unit) : '-'}</td>
+                            <td>${getProductType(product.type)}</td>
+                            <td>${product.qtd}</td>
+                        </tr>
+                    `
             })
 
             rows.unshift(`
-                <tr>
-                    <th>Produto</th>
-                    <th>Unidade</th>
-                    <th>Tipo</th>
-                </tr>
-            `)
+                    <tr>
+                        <th class="table-name">Produto</th>
+                        <th>Unidade</th>
+                        <th>Tipo</th>
+                        <th>Quantidade</th>
+                    </tr>
+                `)
+
+            rows.push(`
+                    <tr class="tr-footer">
+                        <td colspan="4">
+                            <div class="table-footer">
+                                <button onclick="newSearchBox()" type="button" class="btn-squarred btn-squarred-primary">
+                                    <span class="material-symbols-outlined">
+                                        add_circle
+                                    </span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `)
+
+            const table = document.querySelector('#list')
+            table.innerHTML = rows.join('')
+        }
+
+        const newSearchTable = (data) => {
+            const rows = data.map(product => {
+
+                if (!cachedProducts.find(p => p.id === product.id)) {
+                    cachedProducts.push(product)
+                }
+
+                return `
+                        <tr onclick="addProduct(${product.id})">
+                            <td>${product.name}</td>
+                            <td>${product.unit ? getUnit(product.unit) : '-'}</td>
+                            <td>${getProductType(product.type)}</td>
+                        </tr>
+                    `
+            })
+
+            rows.unshift(`
+                    <tr>
+                        <th>Produto</th>
+                        <th>Unidade</th>
+                        <th>Tipo</th>
+                    </tr>
+                `)
 
             const table = document.querySelector('#result')
             table.innerHTML = rows.join('')
         }
 
-        const searchProdut = (input) => {
-            const value = input.value
-            const table = document.querySelector('#result')
-            const url = !value ? `${host}/Product/Get` : `${host}/Product/Search?name=${value}`
-
-            fetch(url)
-                .then(res => res.json())
-                .then(data => newTable(data))
-        }
-
-        addBtn.addEventListener('click', () => {
+        const newSearchBox = () => {
             Swal.fire({
                 title: 'Adicionar Produto',
                 html: `
-                                <div class="form-control">
-                                    <div>
-                                        <label for="name">Escreva o nome do produto</label>
-                                        <input type="text" class="form-input" id="search" oninput="searchProdut(this)" autocomplete="off">
+                                    <div class="form-control">
+                                        <div>
+                                            <label for="name">Escreva o nome do produto</label>
+                                            <input type="text" class="form-input" id="search" oninput="searchProdut(this)" autocomplete="off">
+                                        </div>
                                     </div>
-                                    <div class="qtd">
-                                        <label for="name">Qtd.</label>
-                                        <input type="number" class="form-input" id="name" name="name" autocomplete="off">
+                                    <table id="result">
+                                    </table>
+                                    <div class="form-control">
                                     </div>
-                                </div>
-                                <table id="result">
-
-                                </table>
-                                <div class="form-control">
-                                </div>
-                            `,
+                                `,
+                showConfirmButton: false,
                 didOpen: () => {
                     const input = document.querySelector('#search')
                     input.focus()
 
                     fetch(`${host}/Product/Get`)
                         .then(res => res.json())
-                        .then(data => newTable(data))
+                        .then(data => newSearchTable(data))
                 },
             })
-        })
+        }
+
+        const searchProdut = (input) => {
+            const value = input.value
+            const url = !value ? `${host}/Product/Get` : `${host}/Product/Search?name=${value}`
+
+            fetch(url)
+                .then(res => res.json())
+                .then(data => newSearchTable(data))
+        }
+
+        const addProduct = (id) => {
+            const product = cachedProducts.find(p => p.id === id)
+
+            Swal.fire({
+                icon: 'question',
+                title: 'Informe a quantidade',
+                html: `
+                        <p>Qual a quantidade desejada do produto:<br /><b>${product.name}</b></p>
+                        <div class="form-control">
+                            <div>
+                                <input type="number" class="form-input" id="qtd" value="1">
+                            </div>
+                        </div>
+                    `,
+            }).then(res => {
+                if (res.isConfirmed) {
+                    const qtd = document.querySelector('#qtd').value
+                    addProductToList(product, qtd)
+                }
+            })
+        }
     </script>
 }
