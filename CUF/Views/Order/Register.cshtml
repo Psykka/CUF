@@ -60,6 +60,11 @@
         .form-control {
             flex-direction: row;
         }
+
+        table .btn-squarred {
+            width: 150px;
+            text-align: center;
+        }
     </style>
 }
 
@@ -146,37 +151,37 @@ Usuario (não visivel)
         const newListTable = () => {
             const rows = products.map(product => {
                 return `
-                        <tr>
-                            <td>${product.name}</td>
-                            <td>${product.unit ? getUnit(product.unit) : '-'}</td>
-                            <td>${getProductType(product.type)}</td>
-                            <td>${product.qtd}</td>
-                        </tr>
-                    `
+                            <tr>
+                                <td>${product.name}</td>
+                                <td>${product.unit ? getUnit(product.unit) : '-'}</td>
+                                <td>${getProductType(product.type)}</td>
+                                <td>${product.qtd}</td>
+                            </tr>
+                        `
             })
 
             rows.unshift(`
-                    <tr>
-                        <th class="table-name">Produto</th>
-                        <th>Unidade</th>
-                        <th>Tipo</th>
-                        <th>Quantidade</th>
-                    </tr>
-                `)
+                        <tr>
+                            <th class="table-name">Produto</th>
+                            <th>Unidade</th>
+                            <th>Tipo</th>
+                            <th>Quantidade</th>
+                        </tr>
+                    `)
 
             rows.push(`
-                    <tr class="tr-footer">
-                        <td colspan="4">
-                            <div class="table-footer">
-                                <button onclick="newSearchBox()" type="button" class="btn-squarred btn-squarred-primary">
-                                    <span class="material-symbols-outlined">
-                                        add_circle
-                                    </span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `)
+                        <tr class="tr-footer">
+                            <td colspan="4">
+                                <div class="table-footer">
+                                    <button onclick="newSearchBox()" type="button" class="btn-squarred btn-squarred-primary">
+                                        <span class="material-symbols-outlined">
+                                            add_circle
+                                        </span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `)
 
             const table = document.querySelector('#list')
             table.innerHTML = rows.join('')
@@ -190,21 +195,21 @@ Usuario (não visivel)
                 }
 
                 return `
-                        <tr onclick="addProduct(${product.id})">
-                            <td>${product.name}</td>
-                            <td>${product.unit ? getUnit(product.unit) : '-'}</td>
-                            <td>${getProductType(product.type)}</td>
-                        </tr>
-                    `
+                            <tr onclick="addProduct(${product.id})">
+                                <td>${product.name}</td>
+                                <td>${product.unit ? getUnit(product.unit) : '-'}</td>
+                                <td>${getProductType(product.type)}</td>
+                            </tr>
+                        `
             })
 
             rows.unshift(`
-                    <tr>
-                        <th>Produto</th>
-                        <th>Unidade</th>
-                        <th>Tipo</th>
-                    </tr>
-                `)
+                        <tr>
+                            <th>Produto</th>
+                            <th>Unidade</th>
+                            <th>Tipo</th>
+                        </tr>
+                    `)
 
             const table = document.querySelector('#result')
             table.innerHTML = rows.join('')
@@ -214,17 +219,17 @@ Usuario (não visivel)
             Swal.fire({
                 title: 'Adicionar Produto',
                 html: `
-                                    <div class="form-control">
-                                        <div>
-                                            <label for="name">Escreva o nome do produto</label>
-                                            <input type="text" class="form-input" id="search" oninput="searchProdut(this)" autocomplete="off">
+                                        <div class="form-control">
+                                            <div>
+                                                <label for="name">Escreva o nome do produto</label>
+                                                <input type="text" class="form-input" id="search" oninput="searchProdut(this)" autocomplete="off">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <table id="result">
-                                    </table>
-                                    <div class="form-control">
-                                    </div>
-                                `,
+                                        <table id="result">
+                                        </table>
+                                        <div class="form-control">
+                                        </div>
+                                    `,
                 showConfirmButton: false,
                 didOpen: () => {
                     const input = document.querySelector('#search')
@@ -253,13 +258,13 @@ Usuario (não visivel)
                 icon: 'question',
                 title: 'Informe a quantidade',
                 html: `
-                        <p>Qual a quantidade desejada do produto:<br /><b>${product.name}</b></p>
-                        <div class="form-control">
-                            <div>
-                                <input type="number" class="form-input" id="qtd" value="1">
+                            <p>Qual a quantidade desejada do produto:<br /><b>${product.name}</b></p>
+                            <div class="form-control">
+                                <div>
+                                    <input type="number" class="form-input" id="qtd" value="1">
+                                </div>
                             </div>
-                        </div>
-                    `,
+                        `,
             }).then(res => {
                 if (res.isConfirmed) {
                     const qtd = document.querySelector('#qtd').value

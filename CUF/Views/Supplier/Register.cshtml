@@ -32,75 +32,112 @@
         }
 
         .form-footer {
-            margin-top: 10px;
+            margin-top: 20px;
+            width: 100%;
         }
 
         table .btn-squarred {
             width: 150px;
             text-align: center;
         }
+
+        form {
+            width: 100%;
+            display: flex;
+        }
+
+        table .table-name {
+            width: 30%;
+            border-collapse: collapse;
+        }
+
+        table {
+            width: 30%;
+        }
+
+        .register {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            
+            gap: 20px;
+        }
     </style>
 }
 
 <h1>Cadastro de Fornecedor</h1>
-<div>
-
-
-    <form class="form-control" method="post" asp-controller="Supplier" asp-action="Save">
+<form id="submit-form" class="form-control" method="post" asp-controller="Supplier" asp-action="Save">
+    <div class="register">
         <div>
-            <label for="company">Razão Social</label>
-            <input type="text" class="form-control form-input" id="company" name="Company" placeholder="Ex. Discord S.A"
-                value="@Model.Company" required>
-        </div>
-
-        <div>
-            <label for="trade">Nome Fantasia</label>
-            <input type="text" class="form-control form-input" id="trade" name="Trade" placeholder="Ex. Discord"
-                value="@Model.Trade" required>
-        </div>
-
-        <div class="col">
             <div>
-                <label for="cnpj">CNPJ</label>
-                <input type="text" class="form-control form-input" id="cnpj" name="CNPJ"
-                    placeholder="Ex. 05.073.318/0001-16" value="@Model.CNPJ" required>
+                <label for="company">Razão Social</label>
+                <input type="text" class="form-control form-input" id="company" name="Company"
+                    placeholder="Ex. Discord S.A" value="@Model.Company" required>
             </div>
 
             <div>
-                <label for="phone">Telefone</label>
-                <input type="text" class="form-control form-input" id="phone" name="Phone"
-                    placeholder="Ex. (16) 98821-0103" value="@Model.Phone" required>
+                <label for="trade">Nome Fantasia</label>
+                <input type="text" class="form-control form-input" id="trade" name="Trade" placeholder="Ex. Discord"
+                    value="@Model.Trade" required>
             </div>
 
-            <div>
-                <label for="email">E-mail</label>
-                <input type="text" class="form-control form-input" id="email" name="Email"
-                    placeholder="Ex. suporte@discord.com" value="@Model.Email" required>
-            </div>
-        </div>
-
-        <div class="col form-footer">
-            @if (Model.Id > 0)
-            {
-                <input type="hidden" name="Id" value="@Model.Id">
-                <h2>ID: @Model.Id</h2>
-            }
             <div class="col">
-                <a asp-controller="Supplier" asp-action="List" class="btn btn-primary">Cancelar</a>
-                <button type="submit" class="btn btn-success">Cadastrar</button>
+                <div>
+                    <label for="cnpj">CNPJ</label>
+                    <input type="text" class="form-control form-input" id="cnpj" name="CNPJ"
+                        placeholder="Ex. 05.073.318/0001-16" value="@Model.CNPJ" required>
+                </div>
+
+                <div>
+                    <label for="phone">Telefone</label>
+                    <input type="text" class="form-control form-input" id="phone" name="Phone"
+                        placeholder="Ex. (16) 98821-0103" value="@Model.Phone" required>
+                </div>
+
+                <div>
+                    <label for="email">E-mail</label>
+                    <input type="text" class="form-control form-input" id="email" name="Email"
+                        placeholder="Ex. suporte@discord.com" value="@Model.Email" required>
+                </div>
             </div>
         </div>
-    </form>
-    <table>
-        <tr>
-            <th>Id</th>
-            <th>Razão Social</th>
-            <th>Nome Fantasia</th>
-            <th>CNPJ</th>
-            <th>Telefone</th>
-            <th>E-mail</th>
-            <th>Editar</th>
-            <th>Excluir</th>
-        </tr>
-    </table>
+
+        <table>
+            <tr>
+                <th class="table-name">Produto</th>
+                <th>Unidade</th>
+                <th>Tipo</th>
+                <th>Ações</th>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <p>Nenhum produto inserido ainda...</p>
+                </td>
+            </tr>
+            <tr class="tr-footer">
+                <td colspan="5">
+                    <div class="table-footer">
+                        <button onclick="newSearchBox()" type="button" class="btn-squarred btn-squarred-primary">
+                            <span class="material-symbols-outlined">
+                                add_circle
+                            </span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+</form>
+<div class="col form-footer">
+    @if (Model.Id > 0)
+    {
+        <input type="hidden" name="Id" value="@Model.Id">
+        <h2>ID: @Model.Id</h2>
+    }
+    <div class="col">
+        <a asp-controller="Supplier" asp-action="List" class="btn btn-primary">Cancelar</a>
+        <button type="submit" form="submit-form" class="btn btn-success">Cadastrar</button>
+    </div>
 </div>
