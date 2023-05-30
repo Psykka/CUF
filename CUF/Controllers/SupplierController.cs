@@ -36,12 +36,11 @@ public class SupplierController : Controller
     }
 
     [HttpPost]
+    [Produces("application/json")]
     public IActionResult Save(SupplierModel data)
     {
         if (data.Id == 0)
         {
-            // TODO: Add CreatedBy
-            // TODO: Add UpdatedBy
             data.CreatedAt = DateTime.Now;
             data.UpdatedAt = DateTime.Now;
             db.Suppliers?.Add(data);
@@ -58,10 +57,10 @@ public class SupplierController : Controller
         }
         catch (DbUpdateException ex)
         {
-            return View("Error", new ErrorViewModel { RequestId = ex.Message });
+            return Json(new { error = ex.InnerException?.Message });
         }
 
-        return RedirectToAction("List", "Supplier");
+        return Json(new { success = true });
     }
 }
 

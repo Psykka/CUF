@@ -99,7 +99,6 @@
                 <input type="text" class="form-control form-input" id="email" name="Email"
                     placeholder="Ex. suporte@discord.com" value="@Model.Email" required>
             </div>
-
         </div>
 
         <table id="list">
@@ -110,9 +109,29 @@
                 <th>Ações</th>
             </tr>
             <tr>
-                <td colspan="5">
-                    <p>Nenhum produto inserido ainda...</p>
-                </td>
+                @if (Model.Product != null)
+                {
+                    foreach (var product in Model.Product)
+                    {
+                        <td>@product.Name</td>
+                        <td>@product.Unit</td>
+                        <td>@product.Type</td>
+                        <td>
+                            <div class="table-footer">
+                                <button onclick="removeProduct(@product.Id)" type="button" class="btn-squarred btn-squarred-danger">
+                                    <span class="material-symbols-outlined">
+                                        remove_circle
+                                    </span>
+                                </button>
+                            </div>
+                        </td>
+                    }
+                } else
+                {
+                    <td colspan="4">
+                        <p>Nenhum produto inserido ainda...</p>
+                    </td>
+                }
             </tr>
             <tr class="tr-footer">
                 <td colspan="5">
@@ -131,19 +150,54 @@
 <div class="col form-footer">
     @if (Model.Id > 0)
     {
-        <input type="hidden" name="Id" value="@Model.Id">
+        <input type="hidden" form="submit-form" name="Id" value="@Model.Id">
         <h2>ID: @Model.Id</h2>
     }
     <div class="col">
         <a asp-controller="Supplier" asp-action="List" class="btn btn-primary">Cancelar</a>
-        <button type="submit" form="submit-form" class="btn btn-success">Cadastrar</button>
+        <button type="submit" id="submit-btn" form="submit-form" class="btn btn-success">Cadastrar</button>
     </div>
 </div>
 
 @section scripts {
     <script>
+        const submitBtn = document.querySelector('#submit-btn')
+
         const cachedProducts = []
         const products = []
+
+        submitBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+
+            const form = document.querySelector('#submit-form')
+            const formData = new FormData(form)
+
+            formData.append('Product', JSON.stringify(products))
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.success === true) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Cadastrado com sucesso!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(res => {
+                        window.location.href = '/Supplier/List'
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro ao cadastrar fornecedor!',
+                        text: res.error
+                    })
+                }
+            })
+        })
 
         const addProductToList = (product) => {
             const productExists = products.find(p => p.id === product.id)
