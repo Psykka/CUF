@@ -63,7 +63,7 @@
 else
 {
     <div class="search">
-        <input class="form-group form-input bar" type="text" placeholder="Digite sua busca...">
+        <input class="form-group form-input bar" id="search-bar" type="text" placeholder="Digite sua busca...">
         <a href="#" class="btn-squarred btn-squarred-primary">Buscar</a>
         <a class="btn-squarred btn-squarred-success add" asp-controller="Product" asp-action="Register">
             <span class="material-symbols-outlined">
@@ -71,7 +71,7 @@ else
             </span>
         </a>
     </div>
-    <table>
+    <table id="result">
         <tr>
             <th>ID</th>
             <th class="table-name">Nome</th>
@@ -97,4 +97,50 @@ else
             </tr>
         }
     </table>
+}
+
+@section scripts {
+    <script>
+        const searchBar = document.getElementById('search-bar')
+        const table = document.getElementById('result')
+
+        searchBar.addEventListener('keyup', async (e) => {
+            const searchString = e.target.value
+            const url = !searchString ? `${host}/Product/Get` : `${host}/Product/Search?name=${searchString}`
+
+            const products = await fetch(url)
+                    .then(response => response.json())
+
+            const rows = products.map(product => {
+                return `
+                    <tr>
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.type}</td>
+                        <td>${product.unit != null ? product.unit : '-'}</td>
+                        <td>
+                            <a class="btn-squarred btn-squarred-primary" asp-controller="Product" asp-action="Details">
+                                <span class="material-symbols-outlined">info</span>
+                            </a>
+                            <a class="btn-squarred btn-squarred-success add" asp-controller="Product" asp-action="Register" asp-route-id="${product.id}">
+                                <span class="material-symbols-outlined">edit</span>
+                            </a>
+                        </td>
+                    </tr>
+                `
+            })
+
+            rows.unshift(`
+                <tr>
+                    <th>ID</th>
+                    <th class="table-name">Nome</th>
+                    <th>Tipo</th>
+                    <th>Unidade</th>
+                    <th>Ações</th>
+                </tr>
+            `)
+
+            table.innerHTML = rows.join('')
+        })
+    </script>
 }
