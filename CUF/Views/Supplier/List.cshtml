@@ -107,21 +107,21 @@ else
             const searchString = e.target.value
             const url = !searchString ? `${host}/Supplier/Get` : `${host}/Supplier/Search?name=${searchString}`
 
-            const products = await fetch(url)
+            const suppliers = await fetch(url)
                     .then(response => response.json())
 
-            const rows = products.map(product => {
+            const rows = suppliers.map(supplier => {
                 return `
                     <tr>
-                        <td>${product.id}</td>
-                        <td>${!product.trade ? product.company : product.trade}</td>
-                        <td>${product.cnpj}</td>
-                        <td>${product.phone}</td>
+                        <td>${supplier.id}</td>
+                        <td>${!supplier.trade ? supplier.company : supplier.trade}</td>
+                        <td>${supplier.cnpj}</td>
+                        <td>${supplier.phone}</td>
                         <td>
                             <a class="btn-squarred btn-squarred-primary" asp-controller="Supplier" asp-action="Details">
                                 <span class="material-symbols-outlined">info</span>
                             </a>
-                            <a class="btn-squarred btn-squarred-success add" asp-controller="Supplier" asp-action="Register" asp-route-id="${product.id}">
+                            <a class="btn-squarred btn-squarred-success add" asp-controller="Supplier" asp-action="Register" asp-route-id="${supplier.id}">
                                 <span class="material-symbols-outlined">edit</span>
                             </a>
                         </td>

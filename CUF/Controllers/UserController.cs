@@ -6,6 +6,7 @@ using CUF.Utils;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 
 namespace CUF.Controllers;
 public class UserController : Controller
@@ -154,6 +155,34 @@ public class UserController : Controller
             .Take(50)
             .ToList()
             .OrderBy(p => p.Username));
+    }
+
+    [HttpGet]
+    [Produces("application/json")]
+    public async Task<IActionResult> Search(string name)
+    {
+        if (string.IsNullOrEmpty(name))
+        {
+            return BadRequest();
+        }
+
+        var products = await db.Users?
+            .Where(p => p.Username.Contains(name))
+            .Take(10)
+            .ToListAsync();
+
+        return Ok(products);
+    }
+
+    [HttpGet]
+    [Produces("application/json")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var product = await db.Users?
+            .Take(50)
+            .ToListAsync();
+
+        return Ok(product);
     }
 }
 

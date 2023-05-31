@@ -50,15 +50,14 @@
 }
 
 <div class="search">
-    <input class="form-group form-input bar" type="text" placeholder="Digite sua busca...">
-    <a href="#" class="btn-squarred btn-squarred-primary">Buscar</a>
+    <input class="form-group form-input bar" id="search-bar" type="text" placeholder="Digite sua busca...">
     <a class="btn-squarred btn-squarred-success add" asp-controller="User" asp-action="Register">
         <span class="material-symbols-outlined">
             add_circle
         </span>
     </a>
 </div>
-<table>
+<table id="result">
     <tr>
         <th>ID</th>
         <th class="table-name">Nome de usuario</th>
@@ -83,4 +82,48 @@
         </tr>
     }
 </table>
+
+@section scripts {
+    <script>
+        const searchBar = document.getElementById('search-bar')
+        const table = document.getElementById('result')
+
+        searchBar.addEventListener('keyup', async (e) => {
+            const searchString = e.target.value
+            const url = !searchString ? `${host}/User/Get` : `${host}/User/Search?name=${searchString}`
+
+            const users = await fetch(url)
+                    .then(response => response.json())
+
+            const rows = users.map(user => {
+                return `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>
+                            <a class="btn-squarred btn-squarred-primary" asp-controller="User" asp-action="Details">
+                                <span class="material-symbols-outlined">info</span>
+                            </a>
+                            <a class="btn-squarred btn-squarred-success add" asp-controller="User" asp-action="Register" asp-route-id="${user.id}">
+                                <span class="material-symbols-outlined">edit</span>
+                            </a>
+                        </td>
+                    </tr>
+                `
+            })
+
+            rows.unshift(`
+                <tr>
+                    <th>ID</th>
+                    <th class="table-name">Nome de Usuario</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            `)
+
+            table.innerHTML = rows.join('')
+        })
+    </script>
+}
 
