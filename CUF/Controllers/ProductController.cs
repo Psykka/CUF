@@ -37,8 +37,6 @@ public class ProductController : Controller
     {
         if (data.Id == 0)
         {
-            // TODO: Add CreatedBy
-            // TODO: Add UpdatedBy
             data.CreatedAt = DateTime.Now;
             data.UpdatedAt = DateTime.Now;
             db.Products?.Add(data);

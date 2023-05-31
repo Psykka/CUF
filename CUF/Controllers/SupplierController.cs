@@ -62,5 +62,33 @@ public class SupplierController : Controller
 
         return Json(new { success = true });
     }
+
+    [HttpGet]
+    [Produces("application/json")]
+    public async Task<IActionResult> Search(string name)
+    {
+        if (string.IsNullOrEmpty(name))
+        {
+            return BadRequest();
+        }
+
+        var products = await db.Suppliers?
+            .Where(p => p.Trade.Contains(name) || p.Company.Contains(name))
+            .Take(10)
+            .ToListAsync();
+
+        return Ok(products);
+    }
+
+    [HttpGet]
+    [Produces("application/json")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var product = await db.Suppliers?
+            .Take(50)
+            .ToListAsync();
+
+        return Ok(product);
+    }
 }
 
