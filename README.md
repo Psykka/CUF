@@ -43,7 +43,7 @@ dotnet run --project CUF
 Para **desenvolvimento**, é recomendado utilizar o comando abaixo, que irá executar o sistema e irá atualizar automaticamente o sistema quando houver alterações no código.
 
 ```bash
-dotnet watch run --project CUF
+dotnet watch --project CUF
 ```
 
 No sistema por padrão já existe um usuário administrador, com o login `admin@local` e senha `admin`.
